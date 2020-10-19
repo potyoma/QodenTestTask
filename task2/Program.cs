@@ -1,8 +1,7 @@
 ﻿using System.Linq;
-using System.ComponentModel.DataAnnotations;
-using static System.Console;
 using System.Collections.Immutable;
 using System;
+using static System.Console;
 
 namespace task2
 {
@@ -19,7 +18,7 @@ namespace task2
                 .Select(c => new
                 {
                     Word = c,
-                    Count = Math.Round(((double)text.Count(e => e == c) / text.Length) * 10.0, 0)
+                    Count = (int)Math.Ceiling((double)text.Count(e => e == c) / text.Length * 10)
                 })
                 .OrderBy(c => c.Count);
 
@@ -27,7 +26,7 @@ namespace task2
             {
                 char[] underlines = new char[maxLength - pair.Word.Length];
                 Array.Fill(underlines, '_');
-                char[] dots = new char[(int)pair.Count];
+                char[] dots = new char[pair.Count];
                 Array.Fill(dots, '.');
                 WriteLine($"{new string(underlines)}{pair.Word} {new string(dots)}");
             }
