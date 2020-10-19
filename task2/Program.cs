@@ -19,7 +19,7 @@ namespace task2
                 .Select(c => new
                 {
                     Word = c,
-                    Count = ((double)text.Count(e => e == c) / text.Length) * 10.0
+                    Count = Math.Round(((double)text.Count(e => e == c) / text.Length) * 10.0, 0)
                 })
                 .OrderBy(c => c.Count);
 
