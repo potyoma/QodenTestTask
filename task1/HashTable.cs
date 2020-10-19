@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace task1
+﻿namespace task1
 {
     public class HashTable
     {
         public ListNode[] Values;
-        public int N;
+        public int Length { get; private set; }
 
-        public HashTable(int n)
+        public HashTable(int length)
         {
-            N = n;
-            Values = new ListNode[N];
+            Length = length;
+            Values = new ListNode[Length];
         }
 
         public void Insert(int newValue)
         {
-            ListNode newNode = Values[GetHash(newValue)];
+            var hashed = newValue % Length;
+            var newNode = Values[hashed];
 
             if (newNode != null)
             {
@@ -32,13 +29,8 @@ namespace task1
                 return;
             }
 
-            Values[GetHash(newValue)] = new ListNode();
-            Values[GetHash(newValue)].Insert(newValue);
-        }
-
-        private int GetHash(int number)
-        {
-            return number % N;
+            Values[hashed] = new ListNode();
+            Values[hashed].Insert(newValue);
         }
     }
 }
