@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using static System.Console;
 
 namespace task3 
@@ -7,50 +8,38 @@ namespace task3
     {
         static void Main (string[] args) 
         {
-            string[] line = "5 10 + 10 *".Split();
-            int number = Int32.Parse(line[0]);
-            int numberSecond = 0;
+            string[] line = ReadLine().Split();
+            Stack<int> numbers = new Stack<int>();
 
             foreach (var item in line) 
             {
-                int temp;
-                bool success = Int32.TryParse(item, out temp);
+                bool success = Int32.TryParse(item, out int temp);
 
                 if (success)
                 {
-                    numberSecond = temp;
+                    numbers.Push(temp);
                     continue;
                 }
 
-                number = MakeAction(number, numberSecond, item);
+                int second = numbers.Pop();
+
+                numbers.Push(
+                    MakeAction(numbers.Pop(), second, item));
             }
 
-            WriteLine(number);
+            WriteLine(numbers.Pop());
         }
 
         static int MakeAction(int number1, int number2, string digit) 
         {
-            int result;
-
-            switch (digit)
+            return digit switch
             {
-                case "+":
-                    result = number1 + number2;
-                    break;
-                case "-":
-                    result = number1 - number2;
-                    break;
-                case "*":
-                    result = number1 * number2;
-                    break;
-                case "/":
-                    result = number1 / number2;
-                    break;
-                default:
-                    throw new Exception("Operation is not valid!");
-            }
-
-            return result;
+                "+" => number1 + number2,
+                "-" => number1 - number2,
+                "*" => number1 * number2,
+                "/" => number1 / number2,
+                _ => throw new ArithmeticException("Operation is not valid!")
+            };
         }
     }
 }
